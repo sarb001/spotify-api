@@ -1,7 +1,13 @@
 import express from 'express'
 import axios from 'axios';
+import dotenv from 'dotenv';
 
 const router = express.Router();
+
+
+// const PROD_BACKEND_URL = process.env.NODE_ENV === 'production' ? process.env.REDIRECT_PROD_URI : process.env.REDIRECT_URI 
+
+// console.log('backend url =',PROD_BACKEND_URL);
 
 router.get('/api/v1/testing' , (req,res) => {
     console.log('testing Inside API is -');
@@ -9,7 +15,6 @@ router.get('/api/v1/testing' , (req,res) => {
         message : "Testing Inside API"
     })
 })
-
 
     // login => client side only id is show  | login => wil press now 
 
