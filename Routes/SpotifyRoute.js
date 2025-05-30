@@ -2,12 +2,12 @@ import express from 'express'
 import axios from 'axios';
 import dotenv from 'dotenv';
 
+dotenv.config({
+    path : process.env.NODE_ENV  === 'production' ? '.env.production' : '.env.development'
+});
+
 const router = express.Router();
 
-
-// const PROD_BACKEND_URL = process.env.NODE_ENV === 'production' ? process.env.REDIRECT_PROD_URI : process.env.REDIRECT_URI 
-
-// console.log('backend url =',PROD_BACKEND_URL);
 
 router.get('/api/v1/testing' , (req,res) => {
     console.log('testing Inside API is -');
@@ -15,9 +15,6 @@ router.get('/api/v1/testing' , (req,res) => {
         message : "Testing Inside API"
     })
 })
-
-    // login => client side only id is show  | login => wil press now 
-
 
 router.get('/login' , async(req,res) => {
     try {
@@ -56,7 +53,7 @@ router.get('/api/callback' , async(req,res) => {
                 const { access_token , expires_in , refresh_token } = Response?.data;
                 console.log('access token | expires-in -',{ access_token , expires_in , refresh_token });
 
-                return res.status(200).redirect(`http://localhost:3000/toptracks?accesstoken=${access_token}&expiresin=${expires_in}`)              
+                return res.status(200).redirect(`${process.env.BACKEND_URL}/toptracks?accesstoken=${access_token}&expiresin=${expires_in}`)              
 
             } catch (error) {
             console.log('Failed to get token',error.response?.data?.error);
