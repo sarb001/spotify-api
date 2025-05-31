@@ -103,7 +103,7 @@ router.get('/toptracks' , async(req,res) => {
 
 router.get('/currentplaying' , async(req,res) => {
     try {
-        
+
             const Accesstoken = await req?.headers?.Authorization?.split(" ")[1] || req.cookies?.accesstoken ;
             console.log(' acc token = ',Accesstoken);
 
