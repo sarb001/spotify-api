@@ -25,11 +25,8 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 
-app.get('/' , (req,res) => {
-    res.send(`<a href = ${'/login'}> Login with Spotify </a>`)
-})
 
-app.use('/',SpotifyRouter);
+app.use('/api/v1',SpotifyRouter);
 
 const PORT = 3000;
 

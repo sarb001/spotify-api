@@ -9,13 +9,6 @@ dotenv.config({
 const router = express.Router();
 
 
-router.get('/api/v1/testing' , (req,res) => {
-    console.log('testing Inside API is -');
-    res.status(200).json({
-        message : "Testing Inside API"
-    })
-})
-
 router.get('/login' , async(req,res) => {
     try {
          const Scope = 'user-read-private user-read-email user-top-read user-read-currently-playing user-read-playback-state user-modify-playback-state';
