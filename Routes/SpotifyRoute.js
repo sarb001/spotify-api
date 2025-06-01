@@ -27,7 +27,7 @@ router.get('/login' , async(req,res) => {
 })
 
 
-router.get('/api/callback' , async(req,res) => {
+router.get('/callback' , async(req,res) => {
         try {
             const code = req?.query?.code || ""
             console.log('query code',code);
