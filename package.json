@@ -13,7 +13,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev" : "set NODE_ENV=development&& node index.js",
+    "dev" : "set NODE_ENV=development&& nodemon index.js",
     "start": "set NODE_ENV=production&& nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

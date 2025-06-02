@@ -14,7 +14,7 @@ console.log('cur env =',process.env.NODE_ENV);
 const app  = express();
 
 const AllowedOrigin =  process.env.ORIGIN_URL;
-console.log(' Origin url =',AllowedOrigin);
+console.log(' Origin url ===',AllowedOrigin);
 
 app.use(cors({
     credentials : true,
