@@ -46,7 +46,7 @@ router.get('/callback' , async(req,res) => {
                 const { access_token , expires_in , refresh_token } = Response?.data;
                 console.log('access token | expires-in -',{ access_token , expires_in , refresh_token });
 
-                return res.status(200).redirect(`${process.env.BACKEND_URL}/toptracks?accesstoken=${access_token}&expiresin=${expires_in}`)              
+                return res.status(200).redirect(`${process.env.ORIGIN_URL}?accesstoken=${access_token}&expiresin=${expires_in}`)              
 
             } catch (error) {
             console.log('Failed to get token',error.response?.data?.error);
