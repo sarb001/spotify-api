@@ -58,7 +58,7 @@ router.get('/callback' , async(req,res) => {
 
 router.get('/toptracks' , async(req,res) => {
         try {
-            const Accesstoken = await req?.headers?.Authorization?.split(" ")[1] ;
+            const Accesstoken =  req?.headers?.authorization?.split(" ")[1] ;
             console.log(' Token tracks are -',Accesstoken);
 
             if(!Accesstoken){
@@ -81,6 +81,8 @@ router.get('/toptracks' , async(req,res) => {
                     },
                 }
             )
+
+
              res.status(200).json({
                 message : ` Top ${Response?.data?.limit}  tracks`,
                 alltracks : Response?.data?.items?.map(i => i?.name)
