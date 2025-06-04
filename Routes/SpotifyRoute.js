@@ -58,7 +58,7 @@ router.get('/callback' , async(req,res) => {
 router.get('/toptracks' , async(req,res) => {
         try {
             const Accesstoken =  req?.headers?.authorization?.split(" ")[1] ;
-            console.log(' Token tracks are -',Accesstoken);
+            console.log(' Acc token -',Accesstoken);
 
             if(!Accesstoken){
                 return res.status(401).json({
@@ -70,8 +70,8 @@ router.get('/toptracks' , async(req,res) => {
             const Response = await axios.get(`https://api.spotify.com/v1/me/top/tracks`,
                 {
                     headers : {
-                        'Authorization' : `Bearer ${Accesstoken}`,           
                         'Content-Type' : 'application/x-www-form-urlencoded',
+                        'Authorization' : `Bearer ${Accesstoken}`,           
                     },
                     params : {
                          time_range : 'medium_term',
@@ -88,7 +88,7 @@ router.get('/toptracks' , async(req,res) => {
               })
 
         } catch (error) {
-             console.log('acces_token error --',error?.response?.data?.error);
+             console.log('top tracks error --',error?.response?.data?.error);
              res.status(500).json({
                message : "Failed to get Top 10  tracks"
             })
