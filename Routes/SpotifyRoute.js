@@ -26,7 +26,6 @@ router.get('/login' , async(req,res) => {
     }
 })
 
-
 router.get('/callback' , async(req,res) => {
         try {
             const code = req?.query?.code || ""
@@ -46,7 +45,7 @@ router.get('/callback' , async(req,res) => {
                 const { access_token , expires_in , refresh_token } = Response?.data;
                 console.log('access token | expires-in -',{ access_token , expires_in , refresh_token });
 
-                return res.status(200).redirect(`${process.env.ORIGIN_URL}/spotify?accesstoken=${access_token}&expiresin=${expires_in}`)              
+                return res.status(200).redirect(`${process.env.ORIGIN_URL}/spotify?accesstoken=${access_token}&refreshtoken=${refresh_token}&expiresin=${expires_in}`)              
 
             } catch (error) {
             console.log('Failed to get token',error.response?.data?.error);
@@ -99,7 +98,7 @@ router.get('/toptracks' , async(req,res) => {
 router.get('/currentplaying' , async(req,res) => {
     try {
 
-            const Accesstoken = await req?.headers?.Authorization?.split(" ")[1] || req.cookies?.accesstoken ;
+            const Accesstoken =  req?.headers?.authorization?.split(" ")[1] ;
             console.log(' acc token = ',Accesstoken);
 
             if(!Accesstoken){
@@ -121,8 +120,10 @@ router.get('/currentplaying' , async(req,res) => {
 
             return res.status(200).json({
                 message : "Currently Playing song",
-                currentsong : Response?.data?.item?.name,
-                artistname : Response?.data?.item?.artists?.map(i => i?.name)
+                playingsong : {
+                    songname : Response?.data?.item?.name,
+                    artistname : Response?.data?.item?.artists?.map(i => i?.name)
+                }
             })
 
     } catch (error) {
@@ -135,7 +136,8 @@ router.get('/currentplaying' , async(req,res) => {
 
 router.get('/stopcurrent' , async(req,res) => {
     try {
-            const Accesstoken = await req?.headers?.Authorization?.split(" ")[1] || req.cookies?.accesstoken ;
+        
+            const Accesstoken =  req?.headers?.authorization?.split(" ")[1] ;
             console.log(' Token tracks -',Accesstoken);
 
             if(!Accesstoken){
@@ -184,7 +186,8 @@ router.get('/stopcurrent' , async(req,res) => {
 
  router.get('/playtopsongs' , async(req,res) => {
     try {
-        const Accesstoken = await req?.headers?.Authorization?.split(" ")[1] || req.cookies?.accesstoken ;
+        
+            const Accesstoken =  req?.headers?.authorization?.split(" ")[1] ;
             console.log(' Token tracks -',Accesstoken);
 
             if(!Accesstoken){
@@ -216,5 +219,42 @@ router.get('/stopcurrent' , async(req,res) => {
         })
     }
  })
+
+router.post('/refreshtoken' , async(req,res) => {
+     try {
+
+                const Refreshtoken = req.body;
+                console.log('Red token =',Refreshtoken.token);
+                const Reftoken = Refreshtoken.token;
+
+                if(!Reftoken){
+                    return res.status(401).json({
+                        message : "UnAuthorized Error"
+                    })
+                }
+
+            const Response = await axios.post(process.env.SPOTIFY_TOKENURL,{ 
+                grant_type : 'refresh_token',
+                refresh_token : Reftoken,
+                client_id : process.env.CLIENT_ID,
+                client_secret : process.env.CLIENT_SECRET,
+            },{  headers : {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                }
+            });
+
+            return res.status(200).json({
+                accesstoken : Response?.data?.access_token,
+                message : " Fetched Refresh token"
+            })
+
+     } catch (error) {
+        console.log(' ref token error  =',error?.response?.data.error);
+          res.status(500).json({
+               message : "Failed to get Refresh token "
+        })
+     }
+ })
+
 
 export default router;
