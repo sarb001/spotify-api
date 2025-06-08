@@ -114,16 +114,16 @@ router.get('/currentplaying' , async(req,res) => {
                         'Content-Type' : 'application/x-www-form-urlencoded',
                 },
             })
-
-            console.log('Resp current song -',Response?.data?.item?.name);
-            console.log('Resp current artist name -',Response?.data?.item?.artists?.map(i => i?.name));
-
+            
+            if(Response?.status === 204 || !Response.data){
+                return res.json({ message : "No song is currently playing" })
+            }
+            
+            const Data = Response?.data;
             return res.status(200).json({
-                message : "Currently Playing song",
-                playingsong : {
-                    songname : Response?.data?.item?.name,
-                    artistname : Response?.data?.item?.artists?.map(i => i?.name)
-                }
+                    name : Data?.item?.name,
+                    isplaying : Data?.is_playing,
+                    artists : Data?.item?.artists?.map(i => i?.name)
             })
 
     } catch (error) {
