@@ -224,7 +224,7 @@ router.post('/refreshtoken' , async(req,res) => {
      try {
 
                 const Refreshtoken = req.body;
-                console.log('Red token =',Refreshtoken.token);
+                console.log('Refrence token =',Refreshtoken.token);
                 const Reftoken = Refreshtoken.token;
 
                 if(!Reftoken){
